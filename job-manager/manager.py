@@ -4,8 +4,8 @@ import docker
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-UPLOAD_DIR = "/uploads"
-LOG_DIR = "/logs"
+UPLOAD_DIR = "/app/uploads"
+LOG_DIR = "/app/logs"
 
 client = docker.from_env()
 
@@ -16,10 +16,10 @@ class UploadHandler(FileSystemEventHandler):
 
         filename = os.path.basename(event.src_path)
         if not filename.lower().endswith((".exe", ".bin")):
-            print(f" Skipping non-executable: {filename}")
+            print(f"❌ Skipping non-executable: {filename}")
             return
 
-        print(f" New malware uploaded: {filename}")
+        print(f"🚨 New malware uploaded: {filename}")
         run_container(filename)
 
 def run_container(filename):
@@ -28,7 +28,7 @@ def run_container(filename):
     log_path = os.path.join(LOG_DIR, f"{filename}.log")
 
     try:
-        print(f" Launching disposable container: {container_name}")
+        print(f"🚀 Launching disposable container: {container_name}")
         logs = client.containers.run(
             image="wineo-runner",
             name=container_name,
@@ -45,10 +45,10 @@ def run_container(filename):
 
         with open(log_path, "wb") as f:
             f.write(logs)
-        print(f"Logs saved to: {log_path}")
+        print(f"✅ Logs saved to: {log_path}")
 
     except Exception as e:
-        print(f"Error running container: {e}")
+        print(f"🔥 Error running container: {e}")
 
 def main():
     print("📡 Job Manager watching for malware...")

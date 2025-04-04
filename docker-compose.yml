@@ -17,8 +17,9 @@ services:
   job-manager:
     build: ./job-manager
     volumes:
-      - ./shared/uploads:/uploads
-      - ./shared/logs:/logs
+      - ./shared/uploads:/app/uploads
+      - ./shared/logs:/app/logs
       - /var/run/docker.sock:/var/run/docker.sock
+    command: python manager.py
     restart: always
 
