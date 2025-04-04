@@ -1,12 +1,9 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN dpkg --add-architecture i386 && \
-	apt update && \
-	apt install -y wine64 wine32 curl
+RUN apt update && apt install -y wine64 && mkdir -p /malware && mkdir /logs
 
 WORKDIR /malware
 
-COPY run.sh /run.sh
-RUN chmod +x /run.sh
-
-ENTRYPOINT ["/run.sh"]
+ENTRYPOINT ["wine"]
+CMD ["--version"]

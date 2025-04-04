@@ -20,6 +20,6 @@ services:
       - ./shared/uploads:/app/uploads
       - ./shared/logs:/app/logs
       - /var/run/docker.sock:/var/run/docker.sock
-    command: python manager.py
+    command: python3 -u manager.py
     restart: always
 
