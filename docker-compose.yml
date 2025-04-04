@@ -1,21 +1,9 @@
 version: '3.8'
 services:
-  ui:
-    build: ./ui
-    ports:
-      - "3000:3000"
-    restart: unless-stopped
-
   backend:
     build: ./backend
     ports:
       - "5000:5000"
     volumes:
       - ./backend/uploads:/app/uploads
-    restart: unless-stopped
-
-  analysis:
-    build: ./analysis
-    volumes:
-      - ./analysis/logs:/logs
-    restart: unless-stopped
+    restart: always
